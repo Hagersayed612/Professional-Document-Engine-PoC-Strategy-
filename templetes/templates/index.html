@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Document Engine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .app-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .app-header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .form-section {
+            padding: 30px 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+        }
+
+        .form-section h2 {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .section-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .section-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-item-header h3 {
+            color: #2c3e50;
+            font-size: 16px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background: #bdc3c7;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .form-actions {
+            padding: 30px 40px;
+            background: #f8f9fa;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 0;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .form-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>📄 Professional Document Engine</h1>
+            <p>Create professional business documents with ease</p>
+        </header>
+
+        <form id="documentForm" method="POST" action="/preview">
+            <!-- Document Type Selection -->
+            <div class="form-section">
+                <h2>Document Type</h2>
+                <div class="form-group">
+                    <select name="document_type" id="document_type" required>
+                        <option value="report">Business Report</option>
+                        <option value="strategic_plan">Strategic Plan</option>
+                        <option value="journal">Journal Article</option>
+                        <option value="proposal">Business Proposal</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Basic Information -->
+            <div class="form-section">
+                <h2>Basic Information</h2>
+                
+                <div class="form-group">
+                    <label for="title">Document Title *</label>
+                    <input type="text" id="title" name="title" required 
+                           placeholder="e.g., Q4 2024 Financial Report">
+                </div>
+
+                <div class="form-group">
+                    <label for="subtitle">Subtitle (Optional)</label>
+                    <input type="text" id="subtitle" name="subtitle" 
+                           placeholder="e.g., Annual Performance Analysis">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="author">Author *</label>
+                        <input type="text" id="author" name="author" required 
+                               placeholder="Your Name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Date *</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Executive Summary -->
+            <div class="form-section">
+                <h2>Executive Summary</h2>
+                <div class="form-group">
+                    <label for="executive_summary">Summary (Optional)</label>
+                    <textarea id="executive_summary" name="executive_summary" rows="4"
+                              placeholder="Provide a brief overview of the document..."></textarea>
+                    <small>This will appear as a highlighted section at the beginning</small>
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="form-section">
+                <h2>Content Sections</h2>
+                <div id="sectionsContainer"></div>
+                <button type="button" id="addSectionBtn" class="btn btn-secondary">
+                    + Add Section
+                </button>
+            </div>
+
+            <input type="hidden" id="section_count" name="section_count" value="0">
+
+            <!-- Submit Buttons -->
+            <div class="form-actions">
+                <button type="submit" formaction="/preview" class="btn btn-primary">
+                    👁️ Preview Document
+                </button>
+                <button type="submit" formaction="/generate-pdf" class="btn btn-primary">
+                    📥 Download PDF
+                </button>
+                <button type="reset" class="btn btn-secondary">
+                    🔄 Reset Form
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let sectionCount = 0;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('date').valueAsDate = new Date();
+            addSection(); // Add first section by default
+            
+            document.getElementById('addSectionBtn').addEventListener('click', addSection);
+        });
+
+        // Add new section
+        function addSection() {
+            const container = document.getElementById('sectionsContainer');
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'section-item';
+            sectionDiv.innerHTML = `
+                <div class="section-item-header">
+                    <h3>Section ${sectionCount + 1}</h3>
+                    <button type="button" class="btn btn-danger" onclick="removeSection(this)">
+                        🗑️ Remove
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label for="section_title_${sectionCount}">Section Title *</label>
+                    <input type="text" 
+                           id="section_title_${sectionCount}" 
+                           name="section_title_${sectionCount}" 
+                           required 
+                           placeholder="e.g., Introduction, Methodology, Results">
+                </div>
+                <div class="form-group">
+                    <label for="section_content_${sectionCount}">Section Content *</label>
+                    <textarea id="section_content_${sectionCount}" 
+                              name="section_content_${sectionCount}" 
+                              required 
+                              rows="6"
+                              placeholder="Enter the content for this section...
+
+You can use multiple paragraphs by pressing Enter twice.
+
+This will be formatted professionally in the final document."></textarea>
+                    <small>Use double line breaks to create new paragraphs</small>
+                </div>
+            `;
+            
+            container.appendChild(sectionDiv);
+            sectionCount++;
+            updateSectionCount();
+        }
+
+        // Remove section
+        function removeSection(button) {
+            if (sectionCount <= 1) {
+                alert('You must have at least one section!');
+                return;
+            }
+            
+            const sectionItem = button.closest('.section-item');
+            sectionItem.remove();
+            sectionCount--;
+            updateSectionCount();
+            renumberSections();
+        }
+
+        // Update section count hidden field
+        function updateSectionCount() {
+            document.getElementById('section_count').value = sectionCount;
+        }
+
+        // Renumber sections after removal
+        function renumberSections() {
+            const sections = document.querySelectorAll('.section-item');
+            sections.forEach((section, index) => {
+                const header = section.querySelector('h3');
+                header.textContent = `Section ${index + 1}`;
+            });
+        }
+    </script>
+</body>
+</html>
