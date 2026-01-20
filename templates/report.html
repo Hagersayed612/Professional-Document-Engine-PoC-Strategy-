@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+<style>
+@page {
+    size: A4;
+    margin: 2cm;
+}
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    color: #1f2d3d;
+    font-size: 15pt;
+    line-height: 1.55;
+}
+
+.page {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+/* ===== Force wrap long text & URLs ===== */
+* {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* For links specifically */
+a {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    text-decoration: underline;
+    color: #0645ad;
+}
+
+/* HEADER */
+.header-table {
+    width: 100%;
+    table-layout: fixed;
+    background-color: #132f4c;
+    color: #ffffff;
+}
+
+.header-content {
+    padding: 45px 40px;
+}
+
+.doc-title {
+    font-size: 38pt;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* INFO */
+.info-table {
+    width: 100%;
+    table-layout: fixed;
+    background-color: #f4f6f8;
+    border-bottom: 3px solid #132f4c;
+}
+
+.info-td {
+    padding: 16px 18px;
+    border-right: 1px solid #d6d9dc;
+}
+
+.label {
+    font-size: 10pt;
+    letter-spacing: 1.5px;
+    color: #6c7a89;
+    text-transform: uppercase;
+}
+
+.value {
+    font-size: 15pt;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* SECTIONS */
+.section-title {
+    font-size: 34pt;         /* حجم أكبر */
+    font-weight: 900;        /* عريض جدًا */
+    color: #1a3a5f;          /* لون أزرق */
+    margin-top: 60px;        /* مسافة من فوق */
+    margin-bottom: 15px;     /* مسافة من تحت */
+    padding-bottom: 8px;
+    border-bottom: 3px solid #1a3a5f; /* خط تحت */
+}
+
+
+
+/* SUMMARY */
+.summary-box {
+    margin-top: 25px;
+    padding: 28px;
+    background-color: #fef3f3;
+    border-left: 7px solid #d64545;
+    font-size: 17pt;
+    line-height: 1.6;
+}
+
+ 
+.content-body {
+    margin-top: 20px;
+    font-size: 11pt;
+    line-height: 1.7;
+    color: #34495e;
+}
+
+.content-body h3 {
+    font-size: 20pt;           /* كبرنا الحجم */
+    font-weight: 800;          /* خلى الخط عريض */
+    color: #2c3e50;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding-left: 15px;
+    border-left: 4px solid #3498db;
+}
+
+
+.content-body p {
+    margin: 12px 0;
+    text-align: justify;
+}
+
+
+/* FOOTER */
+.footer {
+    margin-top: 65px;
+    padding-top: 12px;
+    text-align: center;
+    font-size: 10pt;
+    color: #8a97a5;
+    border-top: 1px solid #dde2e6;
+}
+</style>
+</head>
+<body>
+
+    <table class="header-table" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="header-content">
+                <div style="font-size: 8pt; letter-spacing: 2px;">ENTERPRISE DOCUMENT</div>
+                <div class="doc-title">{{ data.title }}</div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="info-table" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="info-td">
+                <div class="label">Author</div>
+                <div class="value">{{ data.author }}</div>
+            </td>
+            <td class="info-td">
+                <div class="label">Date</div>
+                <div class="value">{{ data.date }}</div>
+            </td>
+            <td class="info-td" style="border-right: none;">
+                <div class="label">Type</div>
+                <div class="value">{{ data.document_type }}</div>
+            </td>
+        </tr>
+    </table>
+
+    {% if data.executive_summary %}
+    <div class="section-title">Executive Summary</div>
+    <div class="summary-box">
+        {{ data.executive_summary }}
+    </div>
+    {% endif %}
+
+    <div class="section-title">Detailed Report Content</div>
+    <div class="content-body">
+        {{ data.content | safe }}
+    </div>
+
+    <div style="margin-top: 50px; text-align: center; font-size: 8pt; color: #95a5a6; border-top: 1px solid #eee; padding-top: 10px;">
+        Generated on {{ data.generation_date }} | DocEngine Pro
+    </div>
+    
+
+</body>
+</html>
